@@ -202,8 +202,8 @@ public class NonTerminalsCompiler {
 	            
 	            	// Build the Activation record
 	            	int symTsize = (symTab.getSize()+1); 
-	            	compileWrite("PUSH D0\r\n");
-	            	compileWrite("MOV SP D0\r\n");
+	            	compileWrite("PUSH D"+symTab.getNestingLevel()+"\r\n");
+	            	compileWrite("MOV SP D"+symTab.getNestingLevel()+"\r\n");
 	            	compileWrite("ADD SP #"+symTsize+"\r\n");             
 	            // COMPILER END CODE
 
@@ -215,9 +215,9 @@ public class NonTerminalsCompiler {
                 	// If this block completes a function, then its return value must be pushed onto the top of the stack.
                 	if ( symTab.getParent() != null )
                 		if ( symTab.getParent().findVariable(symTab.getName()).getKind().equals("function") ) {
-                			compileWrite("PUSH "+symTab.findVariable(symTab.getName()).getOffset()+"(D0)\r\n");             			
+                			compileWrite("PUSH "+symTab.findVariable(symTab.getName()).getOffset()+"(D"+symTab.getNestingLevel()+")\r\n");             			
                 		}
-                	compileWrite("MOV D0 "+symTsize+"(D0)\r\n");
+                	compileWrite("MOV D"+symTab.getNestingLevel()+" "+symTsize+"(D"+symTab.getNestingLevel()+")\r\n");
                 	
                 	
                 	// If this block is not the main program, it must return to the calling function
@@ -785,7 +785,7 @@ public class NonTerminalsCompiler {
             				compileWrite("RDS ");
             				break;
             		}
-            		compileWrite(rp.getOffset()+"(D0)\r\n");
+            		compileWrite(rp.getOffset()+"(D"+symTab.getNestingLevel()+")\r\n");
             	// COMPILER END CODE
 
                 break;
@@ -915,7 +915,7 @@ public class NonTerminalsCompiler {
             expression();
             
             // COMPILER CODE
-            	compileWrite("POP "+ap.getOffset()+"(D0)\r\n");
+            	compileWrite("POP "+ap.getOffset()+"(D"+symTab.getNestingLevel()+")\r\n");
         	// COMPILER CODE
 
             break;

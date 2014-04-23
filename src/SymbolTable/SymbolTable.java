@@ -63,7 +63,15 @@ public class SymbolTable {
      with 1 being the starting size to save room for the display register value later
      */
     public void addRow(String ID, String kind, String type, String returnValues, String inputParameters) {
-        Row newRow = new Row(ID, kind, type, size++, 1, returnValues, inputParameters);
+        Row newRow = new Row(ID, kind, type, size++, 1, returnValues, inputParameters, nestLevel);
+        items.add(newRow);
+    }
+    /*
+     * this method is to add a row for function calls and parameter calls, because their size
+     * is different from the size of a variable
+     */
+    public void addFunctionOrParameterRow(String ID, String kind, String type, String returnValues, String inputParameters, int in_size) {
+        Row newRow = new Row(ID, kind, type, size++, in_size, returnValues, inputParameters, nestLevel);
         items.add(newRow);
     }
 
@@ -78,7 +86,11 @@ public class SymbolTable {
 
         while (it.hasNext()) {
             returnRow = it.next();
+<<<<<<< HEAD
             if (returnRow.getID().equals(id)) { // Stephen: BAD JON!!  Using == to compare strings!  baaad!
+=======
+            if (returnRow.getID().equals(id)) {
+>>>>>>> b845716486d373f973107c2aac3142f36439ce84
                 return returnRow;
             }
         }
@@ -111,6 +123,7 @@ public class SymbolTable {
             	 retString += current.getType() + " ";
              }
          }
+         if(retString.length() > 0) retString = retString.substring(0, retString.length() - 1);//This it to get rid of the trailing space
          
          return retString;
     }
@@ -123,7 +136,8 @@ public class SymbolTable {
         Row current;
         ListIterator<Row> myitems = items.listIterator();
         
-        System.out.println("Table: " + tableName + " NestingLevel: " + nestLevel + "  ---------------------------------------------------------------------------------");
+        System.out.println("\nTable: " + tableName + " NestingLevel: " + nestLevel + "  ---------------------------------------------------------------------------------");
+        System.out.println("            ID         Kind      Type    Offset  Size    ReturnValues                                  InputParam");
 
 
         while (myitems.hasNext()) {//prints items of current table
@@ -154,7 +168,8 @@ public class SymbolTable {
             Row current;
             ListIterator<Row> myitems = items.listIterator();
             
-            System.out.println("Table: " + tableName + " NestingLevel: " + nestLevel + "  ---------------------------------------------------------------------------------");
+            System.out.println("\nTable: " + tableName + " NestingLevel: " + nestLevel + "  ---------------------------------------------------------------------------------");
+            System.out.println("            ID         Kind      Type    Offset  Size    ReturnValues                                  InputParam");
             
             while (myitems.hasNext()) {//prints items of current table
                 current = myitems.next();
@@ -182,6 +197,18 @@ public class SymbolTable {
             current = myitems.next();
             current.printRow();
         }
+    }
+    
+    public SymbolTable moveToChild(String name){
+    	SymbolTable current;
+    	ListIterator<SymbolTable> childs = children.listIterator();
+    	while(childs.hasNext()){
+    		current = childs.next();
+    		if(current.getName().equals(name)){
+    			return current;
+    		}
+    	}
+    	return null;
     }
 
 }
