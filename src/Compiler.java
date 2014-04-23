@@ -46,6 +46,7 @@ public class Compiler {
 				catch (java.util.InputMismatchException e)
 				{
 					System.out.println("That's not an int.  Please enter an integer from the list.");
+					reader.next();
 				}
 				catch (ArrayIndexOutOfBoundsException e)
 				{

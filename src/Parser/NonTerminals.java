@@ -76,7 +76,7 @@ public class NonTerminals {
     private static void addProcedureToParent(SymbolTable myTable){
     	
     	String paramList = myTable.getParameters();
-    	String retType = "";//Jon:Procedures don't have a return type
+    	String retType = "proc";//Jon:Procedures don't have a return type
     	
     	myTable.getParent().addFunctionOrParameterRow(myTable.getName(), "procedure", retType, retType, paramList, myTable.getSize()); 	
     	

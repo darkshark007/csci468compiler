@@ -1,6 +1,7 @@
 program lab1;
     var  otherthing, choice: integer;
 		floatMathTest: float;
+		booleanValue: boolean;
        
 <<<<<<< HEAD
    procedure mixit(a, b: integer; var x: float);
@@ -86,7 +87,7 @@ program lab1;
 		writeln('Welcome to my program (^_^ )');
 		writeln('Please enter an integer to find the factorial of:');
 		read(choice);
-		if not(false) then	
+		if not(true) then	
 			writeln(factorial(choice))
 		else
 			writeln('-1');
@@ -101,9 +102,12 @@ program lab1;
 		floatMathTest := (7.0 *2.1 - 0.6 / 13) * (factorial(13 - 11));
 		writeln(floatMathTest);
 		
-		scopeTest(scopeTest);{intersting because scopeTest has no input parameters, and it's ok because scopeTest doesn't have a value return}
+		{scopeTest(scopeTest); This has been fixed and no longer compiles.} 
+		{intersting because scopeTest has no input parameters, and it's ok because scopeTest doesn't have a value return}
 		
 		writeln(retString(0.001, 1.23, 'String as input argument'));
+		
+		booleanValue := true;
 		
 		writeln('Thank you for using this!');
 >>>>>>> b845716486d373f973107c2aac3142f36439ce84

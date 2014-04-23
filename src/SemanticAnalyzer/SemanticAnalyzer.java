@@ -16,7 +16,7 @@ import SymbolTable.*;
  */
 public class SemanticAnalyzer{
 	
-	private static String FILE_NAME = "Program.il";
+	private static String FILE_NAME = "uCompiler.il";
 	private static String[][] labels = new String[50][3];
 	private static String topOfStack = "empty";
 	private static String topOfStackBeforeFunctionCall = "empty";
@@ -174,7 +174,22 @@ public class SemanticAnalyzer{
 			}
 		}
 		
-		else if(topOfStack.equals("integer")||topOfStack.equals("boolean")){
+		else if(topOfStack.equals("boolean")){
+			if (variable.getToken().equals("MP_NOT")){
+				if(topOfStack.equals("integer")){
+					error("Can't NOT a non-boolean Line:" + variable.getLineNumber() + " col:" + variable.getColumnNumber());
+				}
+				write("PUSH #1");
+				write("SUBS");
+				write("NEGS");
+			}
+			else{
+				error("Doing illegal operations on boolean value Line:" + variable.getLineNumber() + " col:" + variable.getColumnNumber());
+
+			}
+		}
+		
+		else if(topOfStack.equals("integer")){
 			if(variable.getToken().equals("MP_FIXED_LIT")||variable.getToken().equals("MP_FLOAT_LIT")){
 				write("CASTSF");
 				write("PUSH #" + variable.getLexeme());
@@ -191,14 +206,6 @@ public class SemanticAnalyzer{
 					error("Can't add boolean False as int value Line:" + variable.getLineNumber() + " col:" + variable.getColumnNumber());
 				}
 				write("PUSH #0");
-			}
-			else if (variable.getToken().equals("MP_NOT")){
-				if(topOfStack.equals("integer")){
-					error("Can't NOT a non-boolean Line:" + variable.getLineNumber() + " col:" + variable.getColumnNumber());
-				}
-				write("PUSH #1");
-				write("SUBS");
-				write("NEGS");
 			}
 			else if(variable.getToken().equals("MP_INTEGER_LIT")){
 				write("PUSH #" + variable.getLexeme());
@@ -408,7 +415,16 @@ public class SemanticAnalyzer{
 		}
 		else{
 			//write("POP " + info.getOffset() + "(D" + info.getNestingLevel() + ")");
-			if(topOfStack.equals("integer")||topOfStack.equals("boolean")){
+			if(topOfStack.equals("boolean")){
+				if(info.getType().equals("boolean")){
+					write("POP" + info.getOffset() + "(D" + info.getNestingLevel() + ")");
+				}
+				else{
+					error("Assigning no boolean value to boolean variable Line:" + variable.getLineNumber() + " col:" + variable.getColumnNumber());
+				}
+			}
+			
+			else if(topOfStack.equals("integer")){
 				if(info.getType().equals("float")){
 					write("CASTSF");
 					write("POP " + info.getOffset() + "(D" + info.getNestingLevel() + ")");
@@ -488,7 +504,12 @@ public class SemanticAnalyzer{
 	 * Add a math operation while enforcing stack type and operation ability
 	 */
 	public void addOp(Token operation){
-		if(topOfStack.equals("integer")||topOfStack.equals("boolean")){
+		
+		if(topOfStack.equals("boolean")){
+			error("trying math operation on boolean value Line" + operation.getLineNumber() + " col" + operation.getColumnNumber());
+		}
+		
+		else if(topOfStack.equals("integer")){
 			//boolean operators
 			if(topOfStack.equals("boolean") && firstSide.equals("boolean") && operation.getToken().equals("MP_OR")){
 				write("ORS");
@@ -727,6 +748,7 @@ public class SemanticAnalyzer{
 	 * Print out the error message given, and end the program
 	 */
 	private void error(String msg){
+		System.out.println("Semantic ERROR:");
 		System.out.println(msg);
 		System.exit(1);
 	}
