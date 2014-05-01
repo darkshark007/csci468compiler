@@ -1,7 +1,5 @@
 package Tokenizer;
 
-import Tokenizer.FSA_Identifier.State;
-
 public class FSA_Literal extends Tokenizer {
 
 

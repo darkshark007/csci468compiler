@@ -3,13 +3,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<link rel="stylesheet" href="http://www.hypertextbookshop.com/compilers2013/Stylesheets/prettify.css" />
-<link rel="stylesheet" href="http://www.hypertextbookshop.com/compilers2013/Stylesheets/pageStylesheet.css" />
-<link rel="stylesheet" href="http://www.hypertextbookshop.com/compilers2013/Stylesheets/navigationStylesheet.css" />
-<link rel="stylesheet" href="http://www.hypertextbookshop.com/compilers2013/Stylesheets/allTextStyles.css" />
-<link rel="stylesheet" href="http://www.hypertextbookshop.com/compilers2013/Stylesheets/colors-blue.css" />
-<script type="text/javascript" src="http://www.hypertextbookshop.com/compilers2013/Scripts/google-code-prettify/run_prettify.js"></script>
-<script language="javascript" type="text/javascript" src="http://www.hypertextbookshop.com/compilers2013/Scripts/recomputeAttributes.js"></script>
+<link rel="stylesheet" href="../../../../Stylesheets/prettify.css" />
+<link rel="stylesheet" href="../../../../Stylesheets/pageStylesheet.css" />
+<link rel="stylesheet" href="../../../../Stylesheets/navigationStylesheet.css" />
+<link rel="stylesheet" href="../../../../Stylesheets/allTextStyles.css" />
+<link rel="stylesheet" href="../../../../Stylesheets/colors-blue.css" />
+
+<script type="text/javascript" src="../../../../Scripts/google-code-prettify/run_prettify.js"></script>
+<script type="text/javascript" src="../../../../Scripts/recomputeAttributes.js"></script>
 
 
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -28,14 +29,16 @@
 
 <header id="header">
 <div id="track-icon1">
-  <img src="http://www.hypertextbookshop.com/compilers2013/Media/StyleImages/bobcat-small.png" width="75" height="48"></div>
+  <img src="../../../../Media/StyleImages/bobcat-small.png" alt="bobcat icon" width="75" height="48"></div>
 <div id="track-icon2">
 </div>
 <div id="track-icon3">
 </div>
   <div id="headMatter">
     <span id="headTitle1">
-    Team Portfolios
+      <!-- InstanceBeginEditable name="Header" -->
+        Header
+	  <!-- InstanceEndEditable --> 
     </span>
     <span id="headTitle2">
     </span>
@@ -48,7 +51,7 @@
 
 <aside id="aside-left">
 <div id="asideLeftTitle">
-Compilers 2013
+Compilers 2014
 </div>
 
 </aside>
@@ -79,9 +82,47 @@ Identify one design pattern that was used in your capstone project and describe 
 <h2>Design Patterns in the Compilers Course</h2>
 <p>The components of the compiler&#8212;the scanner, parser, symbol table, and semantic analyzer&#8212;were each by way of a specific pattern that students were asked to follow. In some cases, students were allowed to deviate from the patterns. As a result, some students may have chosen a different formal design pattern for portions of the compiler. If so, they appear below.</p>
 <h2>Specific Design Patterns</h2>
-<p>Note: if you used a formal design pattern in any of your code, give the design pattern here and refer by line numbers to the code the Program section where the design pattern is implemented. If not, just put:</p>
-<p>In either case, replace the text in this section with yours.</p>
-<p>None beyond those given in the course.</p>
+<p>
+Our team did implement a couple of design patterns. 
+The compiler interface was created to allow the program to swap out target virtual machines, having to rewrite minimal code in the program. 
+This is the Strategy Pattern and also follows a design principle, <i>when possible program to an interface rather than a concrete class</i>. 
+</p>
+
+<pre class="prettyprint" ><code class="language-java">
+public interface Compiler {
+	
+	void openFile();
+	void readInt(String dst);
+	void readFloat(String dst);
+	
+	<span class="nocode">...</span>
+	
+}
+</code></pre>
+
+<p>
+The Table class follows the Singleton Pattern. 
+The constructor is private and the root table can only be created once. 
+If it has already been created, then the current root is returned by a call to instantiate the class. 
+Tables created at deeper nesting levels have one reference pointing to their parent table. 
+This creates a linked list structure for the symbol table that is also a singleton, as only one list can exist during runtime.
+</p>
+
+<pre class="prettyprint" ><code class="language-java">
+public class Table {
+
+	private Table(Table parent) {
+		this.parent = parent;
+	}
+	
+	public static Table rootInstance() {
+		return root;
+	}
+	
+	<span class="nocode">...</span>
+	
+}
+</code></pre>
 <!-- InstanceEndEditable -->
 
 </article>

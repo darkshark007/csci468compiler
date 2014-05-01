@@ -6,7 +6,7 @@ package Tokenizer;
  */
 public class Token {
     
-    protected String lexeme;
+    public String lexeme;
     protected String token;
     protected int lineNum;
     protected int colNum;

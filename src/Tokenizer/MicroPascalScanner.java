@@ -14,6 +14,7 @@ public class MicroPascalScanner implements I_Tokenizer {
 	private int tempColNum = 0;
 	private int lineNum = 0;
 	private String buffer = null;
+	private int numLeftParens = 0;
 	private boolean hasNextChar = true;
 	private FileReader fr;
 	LinkedList<Token> tokenList = new LinkedList<Token>();
@@ -34,6 +35,7 @@ public class MicroPascalScanner implements I_Tokenizer {
 		if ( hasNextToken() ) {
 			scanAllTokens();
 		}
+		
 		return tokenList;
 	}
 	
@@ -61,6 +63,69 @@ public class MicroPascalScanner implements I_Tokenizer {
 		
 		
 		Token tok;
+		
+
+		// Update the Line buffer.
+		do {
+			 if ( buffer.length() == 0 || colNum+tempColNum >= buffer.length() ) {
+				 buffer = getNextLine();
+			 }
+			 if ( buffer == null ) {
+				 hasNextChar = false;
+			 }
+
+			 if ( !hasNextToken() ) break;
+			 nextChar = peekNextChar();
+			// Eat up whitespace
+			 if ( nextChar == ' ' ) {
+				 colNum++;
+			 }
+			 else if ( nextChar == '	' ) {
+				 colNum ++;
+			 }
+			 else if ( nextChar == '\r' ) {
+				 colNum++;
+			 }
+			 else if ( nextChar == '\n' ) {
+				 colNum++;
+			 }
+			 else if ( nextChar == '{' ) {
+				 int commentStart = colNum;
+					int commentLine = lineNum;
+				 do {
+						 if ( buffer.length() == 0 || colNum+tempColNum >= buffer.length() ) {
+							 buffer = getNextLine();
+						 }
+						 if ( buffer == null ) {
+							 hasNextChar = false;
+						 }
+
+						 if ( !hasNextToken() ) {
+							 System.out.println("Run on comment Error Line:" + commentLine + " col:" + commentStart);
+							 System.exit(1);
+							 break;
+						 }
+						 nextChar = peekNextChar();
+						 colNum++;
+						 if(nextChar == '{'){
+							 numLeftParens++;
+						 }
+						 else if(nextChar == '}'){
+							 numLeftParens--;
+						 }
+					} while (numLeftParens > 0);
+
+			 }
+			 else break;
+
+
+
+		} while (true);
+		
+		
+		
+		
+		
 		if ( Character.isLetter(nextChar) || nextChar == '_' ) 
 		{
 			tok = iden.getToken();
@@ -83,54 +148,6 @@ public class MicroPascalScanner implements I_Tokenizer {
 		colNum += tok.getLexeme().length();
 		if ( tok.getLexeme().length() == 0 ) colNum += 1;
 		tempColNum = 0;
-
-		// Update the Line buffer.
-		do {
-			 if ( buffer.length() == 0 || colNum+tempColNum >= buffer.length() ) {
-				 buffer = getNextLine();
-			 }
-			 if ( buffer == null ) {
-				 hasNextChar = false;
-			 }
-
-			 if ( !hasNextToken() ) break;
-			 nextChar = peekNextChar();
-			// Eat up whitespace
-			 if ( nextChar == ' ' ) {
-				 colNum++;
-			 }
-			 else if ( nextChar == '	' ) {
-				 colNum++;
-			 }
-			 else if ( nextChar == '\r' ) {
-				 colNum++;
-			 }
-			 else if ( nextChar == '\n' ) {
-				 colNum++;
-			 }
-			 else if ( nextChar == '{' ) {
-					do {
-						 if ( buffer.length() == 0 || colNum+tempColNum >= buffer.length() ) {
-							 buffer = getNextLine();
-						 }
-						 if ( buffer == null ) {
-							 hasNextChar = false;
-						 }
-
-						 if ( !hasNextToken() ) {
-							 // TODO RUN ON COMMENT ERROR
-							 break;
-						 }
-						 nextChar = peekNextChar();
-						 colNum++;
-					} while (nextChar != '}');
-
-			 }
-			 else break;
-
-
-
-		} while (true);
 		
 		
 		// Add the token to the list of already found tokens

@@ -6,26 +6,46 @@ program lab1;
         function it2(var q: float) : integer;
       
             begin
+<<<<<<< HEAD
                write('it2: ',q);
+=======
+               writeln('it2: ',q);
+>>>>>>> f7978825683f4e02facd4bc7de1db346f8e21d5d
                it2 := 5 - ((q / 2.0) + 5);
             end;
      
         function it2b(x : integer) : integer;
     
             begin
+<<<<<<< HEAD
                write('it2b: ',x);
+=======
+               writeln('it2b: ',x);
+>>>>>>> f7978825683f4e02facd4bc7de1db346f8e21d5d
                it2b := x + 10;
             end;
 
         begin
+<<<<<<< HEAD
             write('it1: ',a,' & ',b);
             write(it2(b));
             write(it2b(a));
         end;
+=======
+            writeln('it1: ',a,' & ',b);
+            writeln(it2(b));
+            writeln(it2b(a));
+        end;
+		
+>>>>>>> f7978825683f4e02facd4bc7de1db346f8e21d5d
     
     begin
         read(v1);
         read(v2);
+<<<<<<< HEAD
         write('TEST #1');
+=======
+        writeln('TEST #1');{jfda;skjfksal;
+>>>>>>> f7978825683f4e02facd4bc7de1db346f8e21d5d
         it1(v1,v2);
 	end.

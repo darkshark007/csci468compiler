@@ -79,12 +79,19 @@ public class Compiler {
 			
 		}
 		
+		list.remove(list.size() - 1);
+		
 		System.out.println("\n\n\nParsing...\n\n");
 		NonTerminals.start(list);
+<<<<<<< HEAD
 
 		String fOut = (testFile.getAbsolutePath())+".il";
 		File compFile = new File(fOut);
 		NonTerminalsCompiler.compile(list,compFile);
+=======
+		
+		reader.close();
+>>>>>>> f7978825683f4e02facd4bc7de1db346f8e21d5d
 
 	}
 

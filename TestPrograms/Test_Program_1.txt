@@ -1,7 +1,13 @@
+
+
+{ak;djfa;slkjfd;alskjd}
+
 program lab1;
-    var  otherthing, choice: integer;
-		floatMathTest: float;
+    var  otherThing, choice: integer;
+		floatMathTest: Float;
 		booleanValue: boolean;
+		float_MathTest: string;
+		bob, fred: boolean;
        
 <<<<<<< HEAD
    procedure mixit(a, b: integer; var x: float);
@@ -82,18 +88,57 @@ program lab1;
 		
 		retString := 'This string was returned as a value';
 	end;
+	
+	procedure refCheck(var x: integer);
+	
+	begin
+		x := 5 + x;
+		writeln('Variable x should be changed to ', x);
+	end;
+	
+	procedure refCheck2(z: integer; var x, y: float);
+		
+		procedure refCheck3(var chicken: float);
+		
+		begin
+			writeln('In refCheck 3 value is: ', chicken);
+			writeln('');
+		end;
+		
+	begin
+		x := x + y;
+		writeln('X in refcheck2 is ', x);
+		refCheck3(y);
+	end;
     
   begin
 		writeln('Welcome to my program (^_^ )');
 		writeln('Please enter an integer to find the factorial of:');
 		read(choice);
-		if not(true) then	
+		if not(false) then	
 			writeln(factorial(choice))
 		else
 			writeln('-1');
 			
 		listNum(100 div 2);
 		listNum(factorial(9 div 3));
+		
+		otherthing := 5 mod 2;
+		writeln(-otherthing);
+		
+		
+		bob := true;
+		fred := false;
+		
+		
+		writeln(bob,fred);
+		
+		fred := fred and bob;
+		writeln(fred);
+		fred := fred or bob;
+		writeln(fred);
+		
+		writeln(-(1 + 2));
 		
 		otherthing := 15 * 15 div 5 + 1 - 2 * 2;
 		writeln('From *main* otherthing is: ', otherthing);
@@ -102,13 +147,42 @@ program lab1;
 		floatMathTest := (7.0 *2.1 - 0.6 / 13) * (factorial(13 - 11));
 		writeln(floatMathTest);
 		
-		{scopeTest(scopeTest); This has been fixed and no longer compiles.} 
+		{scopeTest(scopeTest); This has been fixed and no longer compiles.}
 		{intersting because scopeTest has no input parameters, and it's ok because scopeTest doesn't have a value return}
 		
 		writeln(retString(0.001, 1.23, 'String as input argument'));
 		
+		writeln('X starts at ', otherthing);
+		refCheck(otherthing);
+		writeln('X is now ', otherthing, ' in main');
+		
+		writeln('floatMathTest start: ', floatMathTest);
+		
+		refCheck2(10 div 3, floatMathTest, floatMathTest);
+		
+		writeln('floatMathTest is now ', floatMathTest, ' in main');
+		
+		otherthing := 5;
+		repeat
+			begin
+			write(otherthing, ' ');
+			otherthing := otherthing - 3;
+			end;
+		until (otherthing < 0);
+		
+		for otherthing := (-5) to (otherthing + 20) do
+		
+			writeln('otherthing is ', otherthing);
+		
 		booleanValue := true;
 		
+		writeln(5 + 6.5);
+		
 		writeln('Thank you for using this!');
+<<<<<<< HEAD
 >>>>>>> b845716486d373f973107c2aac3142f36439ce84
   end.
+=======
+  end.
+  
+>>>>>>> f7978825683f4e02facd4bc7de1db346f8e21d5d
