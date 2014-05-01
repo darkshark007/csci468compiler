@@ -1,0 +1,31 @@
+program lab1;
+    var v1: integer; v2: float;
+       
+    procedure it1(a: integer; b: float);
+    
+        function it2(var q: float) : integer;
+      
+            begin
+               write('it2: ',q);
+               it2 := 5 - ((q / 2.0) + 5);
+            end;
+     
+        function it2b(x : integer) : integer;
+    
+            begin
+               write('it2b: ',x);
+               it2b := x + 10;
+            end;
+
+        begin
+            write('it1: ',a,' & ',b);
+            write(it2(b));
+            write(it2b(a));
+        end;
+    
+    begin
+        read(v1);
+        read(v2);
+        write('TEST #1');
+        it1(v1,v2);
+	end.

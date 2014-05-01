@@ -86,11 +86,7 @@ public class SymbolTable {
 
         while (it.hasNext()) {
             returnRow = it.next();
-<<<<<<< HEAD
             if (returnRow.getID().equals(id)) { // Stephen: BAD JON!!  Using == to compare strings!  baaad!
-=======
-            if (returnRow.getID().equals(id)) {
->>>>>>> b845716486d373f973107c2aac3142f36439ce84
                 return returnRow;
             }
         }
